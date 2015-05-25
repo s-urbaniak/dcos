@@ -1,4 +1,10 @@
 FROM mesosphere/mesos:VERSION
 MAINTAINER Mesosphere <support@mesosphere.io>
 
-ENTRYPOINT ["mesos-slave"]
+RUN apt-get install -y runit
+
+RUN mkdir -p /etc/service
+COPY runit/mesos-slave /etc/service/mesos-slave
+COPY runit/init.sh /init.sh
+
+ENTRYPOINT ["/init.sh"]

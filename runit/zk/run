@@ -7,6 +7,7 @@ exec 2>&1
 # initially import all variables
 source /env.bash
 
+echo -n "$ZK_MYID" >/etc/zookeeper/conf/myid
+
 # start master (if not running)
 /usr/share/zookeeper/bin/zkServer.sh start-foreground
-

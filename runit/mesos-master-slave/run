@@ -7,4 +7,6 @@ exec 2>&1
 # initially import all variables
 source /env.bash
 
+sv start mesos-master || exit 1
+
 mesos-slave

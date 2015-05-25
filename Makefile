@@ -1,4 +1,5 @@
 MASTER_IP=$(shell boot2docker ip)
+SLAVE_IP=$(shell boot2docker ip)
 VERSION=0.21.0-1.0.ubuntu1404
 
 all: help
@@ -52,7 +53,19 @@ start-master:
 	-e MESOS_CLUSTER=mesoscluster \
 	-e MESOS_MASTER=zk://$(MASTER_IP):2181/mesos \
 	-e MESOS_CONTAINERIZERS=mesos \
+	-e ZK_MYID=1 \
 	s-urbaniak/mesos-master:$(VERSION)
 
-.PHONY: start-master
+start-slave:
+	docker run \
+	--privileged \
+	--net="host" \
+	--rm \
+	--name=mesos-slave \
+	-e MESOS_IP=$(SLAVE_IP) \
+	-e MESOS_WORK_DIR=/var/lib/mesos \
+	-e MESOS_MASTER=zk://$(MASTER_IP):2181/mesos \
+	-e MESOS_CONTAINERIZERS=mesos \
+	s-urbaniak/mesos-slave:$(VERSION)
 
+.PHONY: start-master start-slave
