@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# redirect stderr->stdout
+exec 2>&1
+
+# runsvdir-start clears environment variables
+# initially import all variables
+source /env.bash
+
+# start master (if not running)
+mesos-master \
+	--registry=in_memory \
+	--ip=${MESOS_MASTER_IP} \
+	--work_dir=/var/lib/mesos
+
