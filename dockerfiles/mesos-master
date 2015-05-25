@@ -5,8 +5,13 @@ RUN apt-get install -y runit
 
 RUN mkdir -p /etc/service
 COPY runit/mesos-master /etc/service/mesos-master
+COPY runit/mesos-slave /etc/service/mesos-slave
 COPY runit/zk /etc/service/zk
-
 COPY runit/init.sh /init.sh
 
+COPY etc/zk/conf/myid /etc/zookeeper/conf/myid
+COPY etc/zk/conf/environment /etc/zookeeper/conf/environment
+COPY etc/zk/zoo.cfg /etc/zookeeper/conf/zoo.cfg
+
 ENTRYPOINT ["/init.sh"]
+

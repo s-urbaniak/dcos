@@ -41,10 +41,17 @@ mesos-slave: mesos check-version
 
 start-master:
 	docker run \
+	--privileged \
 	--net="host" \
 	--rm \
 	--name=mesos-master \
-	-e MESOS_MASTER_IP=$(MASTER_IP) \
+	-e MESOS_IP=$(MASTER_IP) \
+	-e MESOS_ZK=zk://$(MASTER_IP):2181/mesos \
+	-e MESOS_QUORUM=1 \
+	-e MESOS_WORK_DIR=/var/lib/mesos \
+	-e MESOS_CLUSTER=mesoscluster \
+	-e MESOS_MASTER=zk://$(MASTER_IP):2181/mesos \
+	-e MESOS_CONTAINERIZERS=mesos \
 	s-urbaniak/mesos-master:$(VERSION)
 
 .PHONY: start-master

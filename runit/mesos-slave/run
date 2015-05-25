@@ -7,7 +7,7 @@ exec 2>&1
 # initially import all variables
 source /env.bash
 
-sv start zk || exit 1
+sv start mesos-master || exit 1
 
-# start master (if not running)
-mesos-master
+mesos-slave
+
