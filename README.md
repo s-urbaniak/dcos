@@ -21,11 +21,6 @@ To build the images:
 
     $ make mesos-master mesos-slave
 
-*Note*: on OSX all variables (i.e. MASTER_IP)
-can be ommitted.
-They'll be queried via the boot2docker environment
-automatically.
-
 ### master
 To start the master image:
 
@@ -33,6 +28,11 @@ To start the master image:
 
 where ``MASTER_IP`` is the IP address you want
 to bound the master image to.
+
+*Note*: on OSX all variables (i.e. MASTER_IP)
+can be ommitted.
+They'll be queried via the boot2docker environment
+automatically.
 
 The container will start the following three
 daemons using [runit](http://smarden.org/runit/):
@@ -55,6 +55,6 @@ To inspect the logs of a given daemon:
 
     $ docker exec master tail /var/log/mesos-master/current
 
-Replace "meosos-master" with either "mesos-slave" or "zk"
+Replace "mesos-master" with either "mesos-slave" or "zk"
 to tail the logs from the other daemons.
 
