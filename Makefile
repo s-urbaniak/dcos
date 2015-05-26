@@ -4,6 +4,7 @@ MESOS_MASTER=zk://$(MASTER_IP):2181/mesos
 SLAVE_IP=$(shell boot2docker ip)
 ZK_MYID=1
 VERSION=0.21.0-1.0.ubuntu1404
+MARATHON_VERSION=0.8.1-1.0.171.ubuntu1404
 
 all: help
 
@@ -34,7 +35,10 @@ mesos: check-version
 	rm -f Dockerfile
 
 mesos-master: mesos check-version
-	sed "s/VERSION/$(VERSION)/g" dockerfiles/$@ > Dockerfile
+	sed \
+		-e "s/MESOS_VERSION/$(VERSION)/g" dockerfiles/$@ \
+		-e "s/MARATHON_VERSION/$(MARATHON_VERSION)/g" \
+		dockerfiles/$@ > Dockerfile
 	docker build -t s-urbaniak/$@:$(VERSION) .
 	rm -f Dockerfile
 
@@ -56,6 +60,8 @@ start-master:
 	-e MESOS_CLUSTER=mesoscluster \
 	-e MESOS_MASTER=$(MESOS_MASTER) \
 	-e MESOS_CONTAINERIZERS=mesos,docker \
+	-e MARATHON_MASTER=$(MESOS_MASTER) \
+	-e MARATHON_ZK=$(MESOS_ZK) \
 	-e ZK_MYID=$(ZK_MYID) \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /sys:/sys \

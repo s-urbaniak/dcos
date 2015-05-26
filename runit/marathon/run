@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# redirect stderr->stdout
+exec 2>&1
+
+# runsvdir-start clears environment variables
+# initially import all variables
+source /env.bash
+
+sv start zk || exit 1
+
+# start master (if not running)
+marathon
+

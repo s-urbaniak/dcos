@@ -1,11 +1,12 @@
-FROM mesosphere/mesos:VERSION
+FROM mesosphere/mesos:MESOS_VERSION
 MAINTAINER Mesosphere <support@mesosphere.io>
 
-RUN apt-get install -y runit
+RUN apt-get install -y runit marathon=MARATHON_VERSION
 
-RUN mkdir -p /etc/service /var/log/mesos-master /var/log/mesos-slave /var/log/zk
+RUN mkdir -p /etc/service /var/log/mesos-master /var/log/mesos-slave /var/log/zk /var/log/marathon
 COPY runit/mesos-master /etc/service/mesos-master
 COPY runit/mesos-master-slave /etc/service/mesos-slave
+COPY runit/marathon /etc/service/marathon
 COPY runit/zk /etc/service/zk
 COPY runit/init.sh /init.sh
 
