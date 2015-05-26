@@ -3,7 +3,7 @@ MAINTAINER Mesosphere <support@mesosphere.io>
 
 RUN apt-get install -y runit
 
-RUN mkdir -p /etc/service
+RUN mkdir -p /etc/service /var/log/mesos-slave
 COPY runit/mesos-slave /etc/service/mesos-slave
 COPY runit/init.sh /init.sh
 
