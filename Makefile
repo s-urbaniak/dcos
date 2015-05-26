@@ -42,30 +42,34 @@ mesos-slave: mesos check-version
 
 start-master:
 	docker run \
+	--detach=true \
 	--privileged \
 	--net="host" \
-	--rm \
-	--name=mesos-master \
+	--name="master" \
 	-e MESOS_IP=$(MASTER_IP) \
 	-e MESOS_ZK=zk://$(MASTER_IP):2181/mesos \
 	-e MESOS_QUORUM=1 \
 	-e MESOS_WORK_DIR=/var/lib/mesos \
 	-e MESOS_CLUSTER=mesoscluster \
 	-e MESOS_MASTER=zk://$(MASTER_IP):2181/mesos \
-	-e MESOS_CONTAINERIZERS=mesos \
+	-e MESOS_CONTAINERIZERS=mesos,docker \
 	-e ZK_MYID=1 \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	-v /sys:/sys \
 	s-urbaniak/mesos-master:$(VERSION)
 
 start-slave:
 	docker run \
+	--detach=true \
 	--privileged \
 	--net="host" \
-	--rm \
-	--name=mesos-slave \
+	--name="slave" \
 	-e MESOS_IP=$(SLAVE_IP) \
 	-e MESOS_WORK_DIR=/var/lib/mesos \
 	-e MESOS_MASTER=zk://$(MASTER_IP):2181/mesos \
-	-e MESOS_CONTAINERIZERS=mesos \
+	-e MESOS_CONTAINERIZERS=mesos,docker \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	-v /sys:/sys \
 	s-urbaniak/mesos-slave:$(VERSION)
 
 .PHONY: start-master start-slave
