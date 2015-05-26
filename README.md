@@ -27,7 +27,7 @@ To start the master image:
     $ make start-master MASTER_IP=w.x.y.z
 
 where ``MASTER_IP`` is the IP address you want
-to bound the master image to.
+to bound the master instance to.
 
 *Note*: on OSX all variables (i.e. MASTER_IP)
 can be ommitted.
@@ -57,4 +57,19 @@ To inspect the logs of a given daemon:
 
 Replace "mesos-master" with either "mesos-slave" or "zk"
 to tail the logs from the other daemons.
+
+### slave
+To start the slave image:
+
+    $ make start-slave MASTER_IP=w.x.y.z SLAVE_IP=a.b.c.d
+
+where ``MASTER_IP`` is the IP address of the mesos master node
+and ``SLAVE_IP`` the IP address you want to bound the slave instance to.
+
+The container will start the following daemon:
+
+1. mesos-slave: The mesos slave instance
+
+Consult the usage of ``runit`` commands above
+to inspect the slave's current status and logs.
 
