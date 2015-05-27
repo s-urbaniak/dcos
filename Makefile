@@ -1,8 +1,11 @@
 MASTER_IP=$(shell boot2docker ip)
-MESOS_ZK=zk://$(MASTER_IP):2181/mesos
-MESOS_MASTER=zk://$(MASTER_IP):2181/mesos
 SLAVE_IP=$(shell boot2docker ip)
 ZK_MYID=1
+
+MESOS_ZK=zk://$(MASTER_IP):2181/mesos
+MESOS_MASTER=zk://$(MASTER_IP):2181/mesos
+MARATHON_MASTER=zk://$(MASTER_IP):2181/marathon
+
 VERSION=0.21.0-1.0.ubuntu1404
 MARATHON_VERSION=0.8.1-1.0.171.ubuntu1404
 
@@ -60,7 +63,7 @@ start-master:
 	-e MESOS_CLUSTER=mesoscluster \
 	-e MESOS_MASTER=$(MESOS_MASTER) \
 	-e MESOS_CONTAINERIZERS=mesos,docker \
-	-e MARATHON_MASTER=$(MESOS_MASTER) \
+	-e MARATHON_MASTER=$(MARATHON_MASTER) \
 	-e MARATHON_ZK=$(MESOS_ZK) \
 	-e ZK_MYID=$(ZK_MYID) \
 	-v /var/run/docker.sock:/var/run/docker.sock \
