@@ -38,10 +38,7 @@ mesos: check-version
 	rm -f Dockerfile
 
 mesos-master: mesos check-version
-	sed \
-		-e "s/MESOS_VERSION/$(VERSION)/g" dockerfiles/$@ \
-		-e "s/MARATHON_VERSION/$(MARATHON_VERSION)/g" \
-		dockerfiles/$@ > Dockerfile
+	sed -e "s/MESOS_VERSION/$(VERSION)/g" -e "s/MARATHON_VERSION/$(MARATHON_VERSION)/g" dockerfiles/$@ > Dockerfile
 	docker build -t s-urbaniak/$@:$(VERSION) .
 	rm -f Dockerfile
 
