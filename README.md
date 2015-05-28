@@ -37,16 +37,18 @@ automatically.
 The container will start the following three
 daemons using [runit](http://smarden.org/runit/):
 
-1. mesos-master: A mesos master instance
-2. mesos-slave: A mesos slave instance
-3. zk: A zookeeper master instance
+1. zk: A zookeeper master instance
+2. mesos-master: A mesos master instance
+3. mesos-slave: A mesos slave instance
+4. marathon: A marathon master instance
 
 To query the general status of the above mentioned daemons:
 
-    $ docker exec master sv status mesos-master mesos-slave zk
-    run: mesos-master: (pid 12) 591s; run: log: (pid 10) 591s
-    run: mesos-slave: (pid 13) 591s; run: log: (pid 9) 591s
-    run: zk: (pid 14) 591s; run: log: (pid 11) 591s
+    $ docker exec master sv status zk mesos-master mesos-slave marathon
+    run: zk: (pid 15) 30691s; run: log: (pid 12) 30691s
+    run: mesos-master: (pid 16) 30691s; run: log: (pid 14) 30691s
+    run: mesos-slave: (pid 17) 30691s; run: log: (pid 13) 30691s
+    run: marathon: (pid 18) 30691s; run: log: (pid 11) 30691s
 
 See [sv(8)](http://smarden.org/runit/sv.8.html)
 for other options.
