@@ -47,6 +47,10 @@ mesos-slave: mesos check-version
 	docker build -t s-urbaniak/$@:$(VERSION) .
 	rm -f Dockerfile
 
+mesos-spark: mesos check-version
+	sed "s/VERSION/$(VERSION)/g" dockerfiles/$@ > Dockerfile
+	docker build -t s-urbaniak/$@:$(VERSION) .
+
 start-master:
 	docker run \
 	--detach=true \
@@ -80,5 +84,17 @@ start-slave:
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /sys:/sys \
 	s-urbaniak/mesos-slave:$(VERSION)
+
+start-spark:
+	docker run \
+	-ti --rm \
+	--name="mesos-spark" \
+	--net="host" \
+	-e MASTER=mesos://$(MESOS_ZK) \
+	-e SPARK_EXECUTOR_URI=http://$(MASTER_IP):8000/spark-1.3.1-bin-cdh4.tgz \
+	s-urbaniak/mesos-spark:$(VERSION) \
+	--class org.apache.spark.repl.Main \
+	--master mesos://$(MASTER_IP):5050 \
+	spark-shell
 
 .PHONY: start-master start-slave

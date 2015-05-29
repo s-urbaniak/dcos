@@ -10,4 +10,4 @@ source /env.bash
 echo -n "$ZK_MYID" >/etc/zookeeper/conf/myid
 
 # start master (if not running)
-/usr/share/zookeeper/bin/zkServer.sh start-foreground
+exec /usr/share/zookeeper/bin/zkServer.sh start-foreground

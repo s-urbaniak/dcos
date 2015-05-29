@@ -10,4 +10,4 @@ source /env.bash
 sv start zk || exit 1
 
 # start master (if not running)
-mesos-master
+exec mesos-master
